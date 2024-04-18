@@ -1,18 +1,26 @@
 # DataMining-HW3
 
-# Option 2: Acceleratinng code using NVIDIA Rapids + BigQueryML
+# Option 2: Accelerating code using NVIDIA Rapids + BigQueryML
 
-## Steps
+## Data
+
+The [diabetes](https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators) dataset is used.
+80% is split into training and the rest for testing.
+
+It's worth noting that the main purpose of this is to accelerate the code rather than giving the best possible model. Hence, many details will be missing.
 
 ### Motivation
 
 Traditional machine learning algorithms usually run on the CPU rather than GPU. While CPU is versatile and generally is capable enough to handle almost any tasks, GPU is extremely good when it comes to massively parallelized tasks. We will be able to train faster (usually) when using a GPU rather than a CPU.
 
-For this to happen, however, we need **NVIDIA rapids**.
+Normally, we would have to do all this data transformation, send to gpu, ... etc processes by ourselves, but lucky for us, we have **NVIDIA rapids**.
 
 In essence, the collection of packages presented in NVIDIA rapids help users to utilize GPU for traditional machine learning algorithms
 
 ### Installation
+
+This is often the hardest part!
+
 #### NVIDIA Rapids
 First, make sure you have yourself a CUDA compatible NVIDIA GPU.
 
@@ -22,7 +30,7 @@ Next, head over to [Rapids AI](https://docs.rapids.ai/install)
 
 Make your selection, and using your favorite package installer to install the require packages.
 
-**NOTE**: Whatever you choose for `ENV.CUDA` during your selection, head over to [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) to get the same version.
+**NOTE**: Whatever you choose for `ENV.CUDA` during your selection, head over to [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) to get the same version (make sure to choose the correct version as well as the correct intended distribution for your machine)
 
 If you have multiple cuda versions on your machine:
 
@@ -32,21 +40,26 @@ You can use this command
 sudo update-alternatives --config cuda
 ```
 
+A quick `ls /usr/local/` would also help to see what cuda versions were already installed.
+
 #### BigQuery ML
 
 Head over to [BigQuery ML Introduction](https://cloud.google.com/bigquery/docs/bqml-introduction) for a quick refresh and details on how to setup.
+
 
 ### Training
 
 Details of training (using `cuML` from NVIDIA Rapids) can be found in the code secion of the repository.
 Since `cuML` shares the same API interface with that of `sklearn`, the difference ended up being just importing the same package from different libraries.
 
+Using the `cuML` libraries' functions will often send data to GPU, so here and there you will need to use `array_on_gpu.get()` to get the normal numpy cpu array.
+
 For BigQueryML, the process can be boiled down to several steps:
 - Authenticate
 - Upload table into BigQuery
 - Train and evaluate model using Google's BigQuery ML
 
-Overall, it is a relatively painless process. Big plus: everything is on the cloud!
+Overall, it is a relatively painless process. Big Query Big Plus: Everything you do happends on the cloud!
 
 ### Result
 
