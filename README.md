@@ -1,4 +1,4 @@
-# DataMining-HW3
+# DataMining-HW2
 
 # Option 2: Accelerating code using NVIDIA Rapids + BigQueryML
 
